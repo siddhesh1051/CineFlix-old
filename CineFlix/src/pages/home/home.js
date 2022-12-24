@@ -4,16 +4,20 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { Link } from "react-router-dom";
 import MovieList from "../../components/movieList/movieList";
+import axios from "axios";
 
 const Home = () => {
 
-    const [popularMovies, setPopularMovies] = useState([])
+    const [nowPlaying, setnowPlaying] = useState([])
+
+    const getApiData = async () =>{
+        const res = await axios.get("https://api.themoviedb.org/3/movie/upcoming?api_key=62502f0d2b544611def60f0137ff80c5&language=en-US&page=1");
+        setnowPlaying(res.data.results)
+    }
 
     useEffect(() => {
-        fetch("https://api.themoviedb.org/3/movie/now_playing?api_key=62502f0d2b544611def60f0137ff80c5&language=en-US&page=1")
-            .then(res => res.json())
-            .then(data => setPopularMovies(data.results))
-        // .then(data => console.log(data))
+       
+        getApiData();
     }, [])
 
     return (
@@ -30,7 +34,7 @@ const Home = () => {
 
                 >
                     {
-                        popularMovies.map(movie => (
+                        nowPlaying.map(movie => (
                             <Link style={{ textDecoration: "none", color: "white" }} to={`/movie/${movie.id}`} >
                                 <div className="posterImage">
                                     <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} />

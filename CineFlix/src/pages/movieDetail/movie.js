@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./movie.css";
 import { useParams } from "react-router-dom";
-import Cards from "../../components/card/card";
 import { Link } from "react-router-dom";
-import Trailer from "../../components/Trailer/Trailer";
+import axios from "axios";
+
 
 const Movie = () => {
     const [currentMovieDetail, setMovie] = useState();
@@ -12,18 +12,17 @@ const Movie = () => {
     const [Videos, setVideos] = useState();
     const { id } = useParams();
 
-
+    // Initial Useeffect
     useEffect(() => {
         getData();
         
     }, []);
 
-    const getData = () => {
-        fetch(
+    const getData = async () => {
+        const res = await axios.get(
             `https://api.themoviedb.org/3/movie/${id}?api_key=62502f0d2b544611def60f0137ff80c5&language=en-US`
         )
-            .then((res) => res.json())
-            .then((data) => setMovie(data));
+            setMovie(res.data)
     };
 
     useEffect(() => {
@@ -31,24 +30,22 @@ const Movie = () => {
         
     }, []);
 
-    const getCast = () => {
-        fetch(
+    const getCast = async () => {
+        const res = await axios.get(
             `https://api.themoviedb.org/3/movie/${id}/credits?api_key=62502f0d2b544611def60f0137ff80c5&language=en-US`
         )
-            .then((res) => res.json())
-            .then((data) => setCast(data));
+            setCast(res.data)
     };
     useEffect(() => {
         getSimilar();
         
     }, []);
 
-    const getSimilar = () => {
-        fetch(
+    const getSimilar = async () => {
+        const res = await axios.get(
             `https://api.themoviedb.org/3/movie/${id}/similar?api_key=62502f0d2b544611def60f0137ff80c5&language=en-US`
         )
-            .then((res) => res.json())
-            .then((data) => setSimilar(data));
+            setSimilar(res.data)
     };
 
     useEffect(() => {
@@ -56,12 +53,11 @@ const Movie = () => {
         
     }, []);
 
-    const getVideos = () => {
-        fetch(
+    const getVideos = async () => {
+        const res = await axios.get(
             `https://api.themoviedb.org/3/movie/${id}/videos?api_key=62502f0d2b544611def60f0137ff80c5&language=en-US`
         )
-            .then((res) => res.json())
-            .then((data) => setVideos(data));
+            setVideos(res.data)
     };
 
     return (

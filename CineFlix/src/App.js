@@ -4,7 +4,6 @@ import Header from './components/header/Header';
 import Home from './pages/home/home';
 import MovieList from './components/movieList/movieList';
 import Movie from './pages/movieDetail/movie';
-import Trailer from './components/Trailer/Trailer';
 
 function App() {
   return (
@@ -16,7 +15,7 @@ function App() {
                 <Route path="movie/:id" element={<Movie />}></Route>
                 <Route path="movies/:type" element={<MovieList />}></Route>
                 <Route path="/*" element={<h1>Error Page</h1>}></Route>
-             <Route element={<Trailer/>}></Route>
+             
             </Routes>
         </Router>
     </div>
